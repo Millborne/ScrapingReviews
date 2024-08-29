@@ -1,0 +1,2 @@
+STEP 1 (Run on cmd): 
+.venv\Scripts\activate

@@ -8,38 +8,79 @@ import pandas as pd
 
 from env import URL, DriverLocation
 
-def get_data(driver, dataStructreType):
-    """
-    this function get main text, score, name
-    """
-    print('get data...')
-    more_elemets = driver.find_elements_by_class_name('w8nwRe kyuRq')
-    for list_more_element in more_elemets:
-        list_more_element.click()
-    if dataStructreType == 1:
-        elements = driver.find_element_by_xpath('//body/div[2]/div[3]/div[8]/div[9]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[9]')
-    else:
-        elements = driver.find_element_by_xpath('//body/div[2]/div[3]/div[8]/div[9]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[8]')
-    childElement = elements.find_element_by_xpath('.//div[1]')
-    childElementClassName = childElement.get_attribute('class')
-    elements = elements.find_elements_by_xpath(f'//*[@class="{childElementClassName}"]')
+# def get_data(driver, dataStructreType):
+#     """
+#     this function get main text, score, name
+#     """
+#     print('get data...')
+#     more_elemets = driver.find_elements_by_class_name('w8nwRe kyuRq')
+#     for list_more_element in more_elemets:
+#         list_more_element.click()
+#     if dataStructreType == 1:
+#         elements = driver.find_element_by_xpath('//body/div[2]/div[3]/div[8]/div[9]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[9]')
+#     else:
+#         elements = driver.find_element_by_xpath('//body/div[2]/div[3]/div[8]/div[9]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[8]')
+#     childElement = elements.find_element_by_xpath('.//div[1]')
+#     childElementClassName = childElement.get_attribute('class')
+#     elements = elements.find_elements_by_xpath(f'//*[@class="{childElementClassName}"]')
     
-    childElementNameClass = childElement.find_element_by_xpath('.//div[1]/div[1]/div[2]/div[2]/div[1]/button[1]/div[1]').get_attribute('class')
-    childElementTextClass = childElement.find_element_by_xpath('.//div[1]/div[4]/div[2]/div[1]/span[1]').get_attribute('class')
-    childElementScoreClass = childElement.find_element_by_xpath('.//div[1]/div[1]/div[4]/div[1]/span[1]').get_attribute('class')
+#     childElementNameClass = childElement.find_element_by_xpath('.//div[1]/div[1]/div[2]/div[2]/div[1]/button[1]/div[1]').get_attribute('class')
+#     childElementTextClass = childElement.find_element_by_xpath('.//div[1]/div[4]/div[2]/div[1]/span[1]').get_attribute('class')
+#     childElementScoreClass = childElement.find_element_by_xpath('.//div[1]/div[1]/div[4]/div[1]/span[1]').get_attribute('class')
+#     lst_data = []
+#     for data in elements:
+#         name = 'No name'
+#         text = 'No text'
+#         score = '-'
+#         try:
+#             name = data.find_element_by_xpath(
+#                 f'.//*[@class="{childElementNameClass}"]').text
+#             score = data.find_element_by_xpath(
+#                 f'.//*[@class="{childElementScoreClass}"]').get_attribute("aria-label")
+#             text = data.find_element_by_xpath(
+#                 f'.//*[@class="{childElementTextClass}"]').text
+
+#         except:
+#             pass
+        
+#         lst_data.append([name + " from GoogleMaps", text, score[0]])
+
+#     return lst_data
+
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+def get_data(driver, dataStructreType):
+    print('get data...')
+    more_elements = driver.find_elements(By.CLASS_NAME, 'w8nwRe kyuRq')
+    for list_more_element in more_elements:
+        list_more_element.click()
+    
+    if dataStructreType == 1:
+        elements = driver.find_element(By.XPATH, '//body/div[2]/div[3]/div[8]/div[9]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[9]')
+    else:
+        elements = driver.find_element(By.XPATH, '//body/div[2]/div[3]/div[8]/div[9]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[8]')
+    
+    wait = WebDriverWait(driver, 10)
+    childElement = wait.until(EC.presence_of_element_located((By.XPATH, './/div[1]')))
+    
+    childElementClassName = childElement.get_attribute('class')
+    elements = elements.find_elements(By.XPATH, f'//*[@class="{childElementClassName}"]')
+    
+    childElementNameClass = childElement.find_element(By.XPATH, './/div[1]/div[1]/div[2]/div[2]/div[1]/button[1]/div[1]').get_attribute('class')
+    childElementTextClass = childElement.find_element(By.XPATH, './/div[1]/div[4]/div[2]/div[1]/span[1]').get_attribute('class')
+    childElementScoreClass = childElement.find_element(By.XPATH, './/div[1]/div[1]/div[4]/div[1]/span[1]').get_attribute('class')
+    
     lst_data = []
     for data in elements:
         name = 'No name'
         text = 'No text'
         score = '-'
         try:
-            name = data.find_element_by_xpath(
-                f'.//*[@class="{childElementNameClass}"]').text
-            score = data.find_element_by_xpath(
-                f'.//*[@class="{childElementScoreClass}"]').get_attribute("aria-label")
-            text = data.find_element_by_xpath(
-                f'.//*[@class="{childElementTextClass}"]').text
-
+            name = data.find_element(By.XPATH, f'.//*[@class="{childElementNameClass}"]').text
+            score = data.find_element(By.XPATH, f'.//*[@class="{childElementScoreClass}"]').get_attribute("aria-label")
+            text = data.find_element(By.XPATH, f'.//*[@class="{childElementTextClass}"]').text
         except:
             pass
         
@@ -48,13 +89,15 @@ def get_data(driver, dataStructreType):
     return lst_data
 
 def ifGDRPNotice(driver):
+    print("*****************ifGDRPNotice********************")
     # check if the domain of the url is consent.google.com
     if 'consent.google.com' in driver.current_url:
         # click on the "I agree" button
-        driver.execute_script('document.getElementsByTagName("form")[0].submit()');
+        driver.execute_script('document.getElementsByTagName("form")[0].submit()')
     return
 
 def ifPageIsFullyLoaded(driver):
+    print("*****************ifPageIsFullyLoaded********************")
     # check if the page fully loaded including js
     return driver.execute_script('return document.readyState') != 'complete'
 
@@ -86,6 +129,7 @@ def scrolling(counter):
             """,
             scrollable_div
         )
+        print("*****************scrolling********************")
         time.sleep(3)
 
 
@@ -104,9 +148,6 @@ if __name__ == "__main__":
     options.add_argument("--lang=en-US")
     options.add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})
     DriverPath = DriverLocation
-    print("*************************************")
-    print(DriverPath)
-    print("*************************************")
     driver = webdriver.Chrome(DriverPath, options=options)
 
     driver.get(URL)
