@@ -1,2 +1,6 @@
-STEP 1 (Run on cmd): 
+Run on cmd:
+STEP 1: 
 .venv\Scripts\activate
+
+STEP 2
+python src\app.py

@@ -8,79 +8,40 @@ import pandas as pd
 
 from env import URL, DriverLocation
 
-# def get_data(driver, dataStructreType):
-#     """
-#     this function get main text, score, name
-#     """
-#     print('get data...')
-#     more_elemets = driver.find_elements_by_class_name('w8nwRe kyuRq')
-#     for list_more_element in more_elemets:
-#         list_more_element.click()
-#     if dataStructreType == 1:
-#         elements = driver.find_element_by_xpath('//body/div[2]/div[3]/div[8]/div[9]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[9]')
-#     else:
-#         elements = driver.find_element_by_xpath('//body/div[2]/div[3]/div[8]/div[9]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[8]')
-#     childElement = elements.find_element_by_xpath('.//div[1]')
-#     childElementClassName = childElement.get_attribute('class')
-#     elements = elements.find_elements_by_xpath(f'//*[@class="{childElementClassName}"]')
-    
-#     childElementNameClass = childElement.find_element_by_xpath('.//div[1]/div[1]/div[2]/div[2]/div[1]/button[1]/div[1]').get_attribute('class')
-#     childElementTextClass = childElement.find_element_by_xpath('.//div[1]/div[4]/div[2]/div[1]/span[1]').get_attribute('class')
-#     childElementScoreClass = childElement.find_element_by_xpath('.//div[1]/div[1]/div[4]/div[1]/span[1]').get_attribute('class')
-#     lst_data = []
-#     for data in elements:
-#         name = 'No name'
-#         text = 'No text'
-#         score = '-'
-#         try:
-#             name = data.find_element_by_xpath(
-#                 f'.//*[@class="{childElementNameClass}"]').text
-#             score = data.find_element_by_xpath(
-#                 f'.//*[@class="{childElementScoreClass}"]').get_attribute("aria-label")
-#             text = data.find_element_by_xpath(
-#                 f'.//*[@class="{childElementTextClass}"]').text
-
-#         except:
-#             pass
-        
-#         lst_data.append([name + " from GoogleMaps", text, score[0]])
-
-#     return lst_data
-
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
 def get_data(driver, dataStructreType):
+    """
+    this function get main text, score, name
+    """
     print('get data...')
-    more_elements = driver.find_elements(By.CLASS_NAME, 'w8nwRe kyuRq')
-    for list_more_element in more_elements:
+    more_elemets = driver.find_elements_by_class_name('w8nwRe kyuRq')
+    for list_more_element in more_elemets:
         list_more_element.click()
-    
     if dataStructreType == 1:
-        elements = driver.find_element(By.XPATH, '//body/div[2]/div[3]/div[8]/div[9]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[9]')
+        elements = driver.find_element_by_xpath('//body/div[2]/div[3]/div[8]/div[9]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[9]')
     else:
-        elements = driver.find_element(By.XPATH, '//body/div[2]/div[3]/div[8]/div[9]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[8]')
-    
-    wait = WebDriverWait(driver, 10)
-    childElement = wait.until(EC.presence_of_element_located((By.XPATH, './/div[1]')))
-    
+        elements = driver.find_element_by_xpath('//body/div[2]/div[3]/div[8]/div[9]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[8]')
+    childElement = elements.find_element_by_xpath('.//div[1]')
     childElementClassName = childElement.get_attribute('class')
-    elements = elements.find_elements(By.XPATH, f'//*[@class="{childElementClassName}"]')
-    
-    childElementNameClass = childElement.find_element(By.XPATH, './/div[1]/div[1]/div[2]/div[2]/div[1]/button[1]/div[1]').get_attribute('class')
-    childElementTextClass = childElement.find_element(By.XPATH, './/div[1]/div[4]/div[2]/div[1]/span[1]').get_attribute('class')
-    childElementScoreClass = childElement.find_element(By.XPATH, './/div[1]/div[1]/div[4]/div[1]/span[1]').get_attribute('class')
-    
+    elements = elements.find_elements_by_xpath(f'//*[@class="{childElementClassName}"]')
+    print("*********************************************")
+    print(childElement)
+    print("*********************************************")
+    childElementNameClass = childElement.find_element_by_xpath('.//div[1]/div[1]/div[2]/div[2]/div[1]/button[1]/div[1]').get_attribute('class')
+    childElementTextClass = childElement.find_element_by_xpath('.//div[1]/div[4]/div[2]/div[1]/span[1]').get_attribute('class')
+    childElementScoreClass = childElement.find_element_by_xpath('.//div[1]/div[1]/div[4]/div[1]/span[1]').get_attribute('class')
     lst_data = []
     for data in elements:
         name = 'No name'
         text = 'No text'
         score = '-'
         try:
-            name = data.find_element(By.XPATH, f'.//*[@class="{childElementNameClass}"]').text
-            score = data.find_element(By.XPATH, f'.//*[@class="{childElementScoreClass}"]').get_attribute("aria-label")
-            text = data.find_element(By.XPATH, f'.//*[@class="{childElementTextClass}"]').text
+            name = data.find_element_by_xpath(
+                f'.//*[@class="{childElementNameClass}"]').text
+            score = data.find_element_by_xpath(
+                f'.//*[@class="{childElementScoreClass}"]').get_attribute("aria-label")
+            text = data.find_element_by_xpath(
+                f'.//*[@class="{childElementTextClass}"]').text
+
         except:
             pass
         
@@ -130,7 +91,7 @@ def scrolling(counter):
             scrollable_div
         )
         print("*****************scrolling********************")
-        time.sleep(3)
+        time.sleep(1)
 
 
 def write_to_xlsx(data):
@@ -141,11 +102,13 @@ def write_to_xlsx(data):
 
 
 if __name__ == "__main__":
-
     print('starting...')
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")  # show browser or not
+    options.add_argument('--ignore-certificate-errors')
+    options.add_argument('--ignore-ssl-errors')
+    # options.add_argument("--headless")  # show browser or not
     options.add_argument("--lang=en-US")
+    options.add_argument("--allow-insecure-localhost")
     options.add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})
     DriverPath = DriverLocation
     driver = webdriver.Chrome(DriverPath, options=options)
